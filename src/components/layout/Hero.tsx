@@ -9,10 +9,10 @@ type HeroProps = {
 };
 
 const NAV_LINKS = [
-  { label: "Home", href: "#" },
-  { label: "My Music", href: "#" },
-  { label: "About Us", href: "#" },
-  { label: "Course", href: "#" },
+  { label: "Home", href: "#home" },
+  { label: "My Music", href: "#my-music" },
+  { label: "About Us", href: "#about-us" },
+  { label: "Course", href: "#course" },
 ];
 
 export default function Hero({
@@ -22,7 +22,10 @@ export default function Hero({
   accentColor,
 }: HeroProps) {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-black text-white">
+    <section
+      id="home"
+      className="relative min-h-screen overflow-hidden bg-black text-white"
+    >
       <video
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay
@@ -44,8 +47,8 @@ export default function Hero({
             {NAV_LINKS.map((item) => (
               <a
                 key={item.label}
-                className="text-[1.15rem] text-white/92 underline underline-offset-4 transition-opacity hover:opacity-80"
                 href={item.href}
+                className="text-[1.15rem] text-white/92 underline underline-offset-4 transition-opacity hover:opacity-80"
               >
                 {item.label}
               </a>
