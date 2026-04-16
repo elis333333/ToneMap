@@ -91,15 +91,12 @@ function getAccentMultiplier(
   switch (bias) {
     case "low":
       return index === 0 ? 1.1 : 0.97;
-
     case "high":
       return index === total - 1 ? 1.08 : 0.98;
-
     case "mid": {
       const mid = Math.floor(total / 2);
       return index === mid ? 1.08 : 0.98;
     }
-
     case "balanced":
     default:
       return 1;
@@ -116,16 +113,13 @@ function getCurveAccentMultiplier(
   switch (curve) {
     case "front":
       return 1.06 - index * 0.025;
-
     case "back":
       return 0.94 + index * 0.025;
-
     case "middle": {
       const center = (total - 1) / 2;
       const distance = Math.abs(index - center);
       return 1.05 - distance * 0.04;
     }
-
     case "flat":
     default:
       return 1;
@@ -152,13 +146,10 @@ function getArticulationDurationMultiplier(
   switch (articulation) {
     case "soft":
       return 1;
-
     case "tight":
       return Math.max(0.72, 0.9 - index * 0.015);
-
     case "pluck":
       return index === 0 ? 0.88 : 0.82;
-
     default:
       return 1;
   }

@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = "force-dynamic";
 import { useRef, useState } from "react";
 import Hero from "@/components/layout/Hero";
 import InteractiveSection from "@/components/layout/InteractiveSection";

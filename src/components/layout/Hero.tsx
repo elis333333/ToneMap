@@ -8,6 +8,13 @@ type HeroProps = {
   accentColor: string;
 };
 
+const NAV_LINKS = [
+  { label: "Home", href: "#" },
+  { label: "My Music", href: "#" },
+  { label: "About Us", href: "#" },
+  { label: "Course", href: "#" },
+];
+
 export default function Hero({
   query,
   onQueryChange,
@@ -34,18 +41,15 @@ export default function Hero({
           <Logo />
 
           <nav className="hidden items-center gap-12 pt-3 md:flex">
-            <a className="text-[1.15rem] text-white/92 underline underline-offset-4" href="#">
-              Inicio
-            </a>
-            <a className="text-[1.15rem] text-white/92 underline underline-offset-4" href="#">
-              Composición
-            </a>
-            <a className="text-[1.15rem] text-white/92 underline underline-offset-4" href="#">
-              IA
-            </a>
-            <a className="text-[1.15rem] text-white/92 underline underline-offset-4" href="#">
-              Curso
-            </a>
+            {NAV_LINKS.map((item) => (
+              <a
+                key={item.label}
+                className="text-[1.15rem] text-white/92 underline underline-offset-4 transition-opacity hover:opacity-80"
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
         </header>
 

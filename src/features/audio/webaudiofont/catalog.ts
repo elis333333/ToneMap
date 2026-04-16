@@ -50,22 +50,16 @@ export const WEB_AUDIO_FONT_PRESETS: Record<
     playerScriptUrl: PLAYER_SCRIPT_URL,
     variants: [
       {
-        label: "Acoustic Guitar Steel",
-        presetScriptUrl:
-          "https://surikov.github.io/webaudiofontdata/sound/0250_Aspirin_sf2_file.js",
-        globalVariableName: "_tone_0250_Aspirin_sf2_file",
-      },
-      {
         label: "Acoustic Guitar Nylon",
         presetScriptUrl:
           "https://surikov.github.io/webaudiofontdata/sound/0240_Aspirin_sf2_file.js",
         globalVariableName: "_tone_0240_Aspirin_sf2_file",
       },
       {
-        label: "Electric Guitar Clean",
+        label: "Acoustic Guitar Steel",
         presetScriptUrl:
-          "https://surikov.github.io/webaudiofontdata/sound/0270_Aspirin_sf2_file.js",
-        globalVariableName: "_tone_0270_Aspirin_sf2_file",
+          "https://surikov.github.io/webaudiofontdata/sound/0250_Aspirin_sf2_file.js",
+        globalVariableName: "_tone_0250_Aspirin_sf2_file",
       },
     ],
   },

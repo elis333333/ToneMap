@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type LogoProps = {
   compact?: boolean;
 };
@@ -5,8 +7,14 @@ type LogoProps = {
 export default function Logo({ compact = false }: LogoProps) {
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-14 w-14 items-center justify-center rounded-[20px] border border-white/8 bg-white/8 backdrop-blur-sm">
-        <span className="text-lg font-semibold text-white">T</span>
+      <div className="relative h-14 w-14 overflow-hidden">
+        <Image
+          src="/images/logo-tonemap.png"
+          alt="ToneMap logo"
+          fill
+          className="object-cover"
+          priority
+        />
       </div>
 
       {!compact && (

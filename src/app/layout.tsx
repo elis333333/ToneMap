@@ -18,6 +18,11 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: APP_NAME,
   description: APP_TAGLINE,
+  icons: {
+    icon: "/images/logo-tonemap.png",
+    shortcut: "/images/logo-tonemap.png",
+    apple: "/images/logo-tonemap.png",
+  },
 };
 
 export default function RootLayout({
