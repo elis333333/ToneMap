@@ -182,13 +182,13 @@ export default function HomePage() {
       }
     } else if (parsed.kind === "roman-progression") {
       const romanAnalysis = analyzeRomanProgression({
-        input: parsed.input,
+        input: parsed.raw,
         tonic: romanBaseTonic,
         mode: romanMode,
       });
 
       const resolvedRoman = resolveRomanProgression({
-        input: parsed.input,
+        input: parsed.raw,
         tonic: romanBaseTonic,
         mode: romanMode,
       });
