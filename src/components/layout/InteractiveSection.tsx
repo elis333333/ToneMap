@@ -1,5 +1,5 @@
 "use client";
-
+import { forwardRef } from "react";
 import { useEffect, useMemo, useState } from "react";
 import SearchBar from "@/components/layout/SearchBar";
 import InstrumentSwitch from "@/components/controls/InstrumentSwitch";

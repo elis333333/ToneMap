@@ -26,10 +26,10 @@ import type { ChordQuality, NoteName } from "@/core/types";
 
 export default function HomePage() {
   const interactiveSectionRef = useRef<HTMLElement | null>(null);
-
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [query, setQuery] = useState("");
   const [instrument, setInstrument] = useState<"keyboard" | "guitar" | "bass">(
-    "keyboard"
+    "guitar"
   );
 
   const setSelectedKeysForInstrument = useExplorerStore(
@@ -108,20 +108,22 @@ export default function HomePage() {
       setActiveInstrument(instrument);
       setSelectedKeysForInstrument(instrument, selectedKeys);
       setGuitarRenderVoicing(instrument === "guitar" ? resolved.guitar : null);
-
-      await playChord(resolved.chord.audioNotes, instrument);
+await playChord(
+  resolved.chord.notes.map((note) => `${note}4`),
+  instrument
+);
     } else if (parsed.kind === "interval") {
       setProgressionAnalysis(null);
-
-      const notes = buildIntervalNotes(parsed.root as NoteName, parsed.interval);
-
+      const notes = buildIntervalNotes(
+  parsed.root as NoteName,
+  parsed.semitones
+);
       selectedKeys =
         instrument === "keyboard"
           ? findPianoKeysForNotes(notes)
           : instrument === "guitar"
             ? findGuitarPositionsForNotes(notes, 24, guitarTuning)
             : [];
-
       setActiveInstrument(instrument);
       setSelectedKeysForInstrument(instrument, selectedKeys);
       setGuitarRenderVoicing(null);
@@ -129,7 +131,7 @@ export default function HomePage() {
       await playChord(notes.map((note) => `${note}4`), instrument);
     } else if (parsed.kind === "progression") {
       const progression = analyzeChordProgression({
-        input: parsed.input,
+        input: parsed.raw,
         chords: parsed.chords.map((chord) => ({
           root: chord.root,
           quality: chord.quality,
@@ -264,16 +266,16 @@ export default function HomePage() {
       />
 
       <InteractiveSection
-        ref={interactiveSectionRef}
+        sectionRef={sectionRef}
         query={query}
         onQueryChange={setQuery}
         onSubmit={handleSubmit}
         instrument={instrument}
         onInstrumentChange={setInstrument}
+        accentColor="#FFBE0B"
       />
 
       <AboutSection />
-      <MyMusicSection />
 
       <section id="course" className="h-1 w-full" />
     </main>

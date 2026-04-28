@@ -10,9 +10,7 @@ type HeroProps = {
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
-  { label: "My Music", href: "#my-music" },
   { label: "About Us", href: "#about-us" },
-  { label: "Course", href: "#course" },
 ];
 
 export default function Hero({

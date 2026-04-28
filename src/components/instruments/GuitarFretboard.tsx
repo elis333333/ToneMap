@@ -7,6 +7,8 @@ import { playNote } from "@/features/audio/playNote";
 import { getInstrumentHighlightColor } from "@/features/music/emotion";
 import { getDisplayLabel } from "@/features/instruments/display";
 import type { NoteName } from "@/core/types";
+import { useEffect, useRef } from "react";
+import { playChord } from "@/features/audio/playChord";
 
 const STRING_COUNT = 6;
 const FRET_COUNT = 24;
@@ -48,7 +50,8 @@ function buildFretGeometry(count: number, boardWidth: number) {
 }
 
 function getStringTopPx(stringIndex: number, contentHeight: number) {
-  return (stringIndex * contentHeight) / (STRING_COUNT - 1);
+  const invertedIndex = STRING_COUNT - 1 - stringIndex;
+  return (invertedIndex * contentHeight) / (STRING_COUNT - 1);
 }
 
 function getFretLabel(fret: number) {
@@ -108,7 +111,7 @@ export default function GuitarFretboard() {
         fret: guitarRenderVoicing.barre.fret,
         left: projectX(fretCenters[guitarRenderVoicing.barre.fret] ?? 0),
         top:
-          getStringTopPx(6 - guitarRenderVoicing.barre.toString, contentHeight) +
+          getStringTopPx(guitarRenderVoicing.barre.toString - 1, contentHeight) +
           CONTENT_PADDING_Y,
         bottom:
           getStringTopPx(6 - guitarRenderVoicing.barre.fromString, contentHeight) +
@@ -144,6 +147,69 @@ export default function GuitarFretboard() {
         clipPath: "polygon(0 18%,72% 28%,82% 34%,82% 66%,70% 72%,0 82%)",
       };
 
+
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const maxFret = useMemo(() => {
+    if (!guitarRenderVoicing?.positions?.length) return 0;
+    return Math.max(...guitarRenderVoicing.positions.map((p) => p.fret));
+  }, [guitarRenderVoicing]);
+  useEffect(() => {
+    if (!scrollRef.current) return;
+
+    const container = scrollRef.current;
+
+    const ratio = maxFret / FRET_COUNT;
+    const target =
+      ratio * container.scrollWidth - container.clientWidth / 2;
+
+    container.scrollTo({
+      left: Math.max(0, target),
+      behavior: "smooth",
+    });
+  }, [maxFret]);
+useEffect(() => {
+  if (!guitarRenderVoicing?.positions?.length) return;
+
+  const notes = guitarRenderVoicing.positions.map((p) => p.audioNote);
+
+  playChord(notes, "guitar");
+}, [guitarRenderVoicing]);
+
+useEffect(() => {
+  if (!detection || detection.type === "none") return;
+
+  // 🎹 CHORD
+  if (detection.type === "chord") {
+    const notes = (detection as any).chord?.notes ?? [];
+
+    notes.forEach((note: string, index: number) => {
+      setTimeout(() => {
+        playNote(note + "4", "keyboard");
+      }, index * 80);
+    });
+  }
+
+  // 🎵 INTERVAL
+  if (detection.type === "interval") {
+    const notes = (detection as any).interval?.notes ?? [];
+
+    notes.forEach((note: string, index: number) => {
+      setTimeout(() => {
+        playNote(note + "4", "keyboard");
+      }, index * 120);
+    });
+  }
+// 🎼 SCALE
+if ((detection as any).type === "scale") {
+  const notes = (detection as any).scale?.notes ?? [];
+
+  notes.forEach((note: string, index: number) => {
+    setTimeout(() => {
+      playNote(note + "4", "keyboard");
+    }, index * 120);
+  });
+}
+}, [detection]);
   return (
     <div className="w-full rounded-[24px] bg-[#111111] p-4 shadow-[0_12px_34px_rgba(0,0,0,0.22)]">
       <div className="mb-3 flex flex-wrap items-center gap-3 px-1">
