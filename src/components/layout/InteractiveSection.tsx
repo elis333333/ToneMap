@@ -508,6 +508,7 @@ export default function InteractiveSection({
 
   return (
     <section
+      id="interactive-section"
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden bg-black px-6 pb-20 pt-8 text-white md:px-8"
     >

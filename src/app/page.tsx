@@ -31,7 +31,7 @@ export default function HomePage() {
   const [instrument, setInstrument] = useState<"keyboard" | "guitar" | "bass">(
     "guitar"
   );
-
+  
   const setSelectedKeysForInstrument = useExplorerStore(
     (state) => state.setSelectedKeysForInstrument
   );
@@ -248,12 +248,7 @@ await playChord(
       }
     }
 
-    requestAnimationFrame(() => {
-      interactiveSectionRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    });
+    
   };
 
   return (
@@ -272,7 +267,7 @@ await playChord(
         onSubmit={handleSubmit}
         instrument={instrument}
         onInstrumentChange={setInstrument}
-        accentColor="#FFBE0B"
+        accentColor={accentColor}
       />
 
       <AboutSection />

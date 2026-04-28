@@ -166,13 +166,26 @@ export default function GuitarFretboard() {
       left: Math.max(0, target),
       behavior: "smooth",
     });
-  }, [maxFret]);
+  },[guitarRenderVoicing?.positions]);
 useEffect(() => {
   if (!guitarRenderVoicing?.positions?.length) return;
 
   const notes = guitarRenderVoicing.positions.map((p) => p.audioNote);
 
   playChord(notes, "guitar");
+}, [guitarRenderVoicing]);
+
+useEffect(() => {
+  if (!guitarRenderVoicing?.positions?.length) return;
+
+  requestAnimationFrame(() => {
+    document
+      .getElementById("interactive-section")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  });
 }, [guitarRenderVoicing]);
 
 useEffect(() => {
