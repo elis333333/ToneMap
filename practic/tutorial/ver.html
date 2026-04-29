@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ToneMap Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', Space Grotesk;
+}
+
+.text{
+    font-family: 'Space Grotesk';
+}
+
+body {
+  background:transparent;
+}
+
+#tutorial {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.78);
+  color:white;
+  z-index:999;
+}
+
+/* HERO */
+.hero {
+  position:absolute;
+  top:100px;
+  width:100%;
+  text-align:center;
+}
+
+.hero h1 {
+  font-size:85px;
+  font-weight:800;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:16px;
+}
+
+.hero img {
+  width:100px;
+}
+
+.hero span {
+  font-family:'Space Grotesk', sans-serif;
+  font-size:20px;
+  color:#aaa;
+}
+
+/* ====== ASISTENTE (CLAVE) ====== */
+.assistant {
+  position:absolute;
+  right:80px;
+  bottom:80px;
+  display:flex;
+  align-items:flex-end;
+  gap:20px;
+  transition:.4s;
+}
+
+/* posiciones por step */
+.step-2 .assistant { top:80px; bottom:auto; }
+.step-3 .assistant { top:80px; bottom:auto; }
+.step-4 .assistant { top:50%; transform:translateY(-50%); }
+.step-5 .assistant { bottom:80px; top:auto; }
+
+/* BURBUJA */
+.bubble {
+  width:520px;
+  background:rgba(40,40,40,0.95);
+  padding:28px;
+  border-radius:28px;
+  font-size:20px;
+  line-height:1.6;
+  position:relative;
+  transition:.3s;
+}
+
+.bubble small {
+  color:#777;
+  display:block;
+  margin-bottom:8px;
+}
+
+.bubble.hide {
+  opacity:0;
+  transform:translateY(20px);
+}
+
+.bubble::after {
+  content:"";
+  position:absolute;
+  bottom:-14px;
+  right:40px;
+  width:28px;
+  height:28px;
+  background:rgba(40,40,40,0.95);
+  transform:rotate(45deg);
+}
+
+/* PERSONAJE */
+.character {
+  width:260px;
+}
+
+/* BOTONES */
+#actionBtn {
+  position:absolute;
+  padding:14px 32px;
+  border-radius:999px;
+  border:none;
+  font-size:18px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* posiciones */
+.step-1 #actionBtn {
+  left:50%;
+  transform:translateX(-50%);
+  bottom:80px;
+}
+
+.step-2 #actionBtn,
+.step-3 #actionBtn,
+.step-4 #actionBtn {
+  right:80px;
+  bottom:40px;
+}
+
+.step-5 #actionBtn {
+  left:50%;
+  transform:translateX(-50%);
+  bottom:80px;
+}
+
+/* colores */
+.step-1 #actionBtn { background:#FFBE0B; color:black;}
+.step-3 #actionBtn { background:#FF006E;}
+.step-4 #actionBtn { background:#06D6A0; color:black;}
+.step-5 #actionBtn { background:#8338EC;}
+
+/* SALTAR */
+#skipBtn {
+  position:absolute;
+  right:80px;
+  bottom:40px;
+  background:#555;
+  border:none;
+  padding:10px 20px;
+  border-radius:999px;
+  color:white;
+  opacity:.6;
+}
+
+/* DOTS */
+.dots {
+  position:absolute;
+  bottom:30px;
+  left:40px;
+  display:flex;
+  gap:10px;
+}
+
+.dot { width:10px; height:10px; border-radius:50%; }
+
+.c1{background:#3A86FF;}
+.c2{background:#FF006E;}
+.c3{background:#06D6A0;}
+.c4{background:#8338EC;}
+.c5{background:#FFBE0B;}
+
+/* colores texto */
+.pink{color:#FF006E;}
+.yellow{color:#FFBE0B;}
+.green{color:#06D6A0;}
+.purple{color:#8338EC;}
+.blue{color:#3A86FF;}
+
+.sg { font-family:'Space Grotesk', sans-serif; }
+
+</style>
+</head>
+
+<body>
+
+<div id="tutorial">
+
+  <div class="hero" id="hero">
+    <h1>
+      Bienvenido a ToneMap 
+      <img src="logo-tonemap.png">
+    </h1>
+    <span class="text">Entiende la música como un lenguaje visual y emocional</span>
+  </div>
+
+  <!-- 🔥 AHORA TODO ESTÁ AGRUPADO -->
+  <div class="assistant">
+    <div class="bubble" id="bubble" style="margin-bottom: 170px; margin-left: -100px;"> </div>
+    <img src="tone.png" class="character" style="margin-left: -100px;">
+  </div>
+
+  <button id="skipBtn" class="text">Saltar</button>
+  <button id="actionBtn" class="text">Siguiente</button>
+
+  <div class="dots">
+    <div class="dot c1"></div>
+    <div class="dot c2"></div>
+    <div class="dot c3"></div>
+    <div class="dot c4"></div>
+    <div class="dot c5"></div>
+  </div>
+
+</div>
+
+<script>
+const bubble = document.getElementById("bubble");
+const btn = document.getElementById("actionBtn");
+const skip = document.getElementById("skipBtn");
+const tutorial = document.getElementById("tutorial");
+const hero = document.getElementById("hero");
+
+let step = 1;
+let timeout = null;
+
+function setBubble(html){
+  bubble.classList.add("hide");
+  setTimeout(()=>{
+    bubble.innerHTML = html;
+    bubble.classList.remove("hide");
+  },200);
+}
+
+function render(){
+  tutorial.className = "step-"+step;
+
+  if(step===1){
+    hero.style.display="block";
+    skip.style.display="block";
+
+    setBubble(`
+      Explora <span class="pink">acordes</span>,
+      <span class="yellow">escalas</span> y
+      <span class="green">progresiones</span>
+      como nunca antes
+    `);
+  }
+
+  if(step===2){
+    hero.style.display="none";
+    skip.style.display="none";
+
+    setBubble(`
+      <small>1) Busca cualquier cosa</small>
+      <span class="pink">Escribe</span> cualquier acorde en el
+      <span class="yellow">buscador</span> y mira cómo
+      <span class="purple">suena</span> y se <span class="green">ve</span>.
+      Prueba con <span class="blue">Si mayor</span>
+    `);
+
+    btn.style.display="none";
+
+    timeout=setTimeout(()=>{
+      step=3;
+      render();
+    },5000);
+  }
+
+  if(step===3){
+    btn.style.display="block";
+
+    setBubble(`
+      <small>1.1) Busca cualquier cosa</small>
+      ¡Felicidades! <span class="yellow">escribiste</span> y
+      <span class="green">encontraste</span> tu primer
+      <span class="pink">acorde</span>
+    `);
+  }
+
+  if(step===4){
+    setBubble(`
+      <small>2) Escribe tu música</small>
+      Explora y crea, puedes <span class="yellow">construir</span> música
+      <span class="pink">tocando</span> o combinando notas.
+      <span class="green sg">Presiona</span> y
+      <span class="purple sg">siguiente</span>
+    `);
+  }
+
+  if(step===5){
+    setBubble(`
+      <small>3) Aprende lo que significa</small>
+      Puedes ver <span class="green">información</span> útil en las fichas:
+      <br><br>
+      • <span class="purple sg">Teórica → qué es</span><br>
+      • <span class="pink sg">Avanzada → cómo funciona</span><br>
+      • <span class="yellow sg">Emocional → cómo se siente</span>
+    `);
+
+    btn.textContent="¡Listo!";
+  }
+}
+
+btn.onclick=()=>{
+  clearTimeout(timeout);
+  if(step<5){step++; render();}
+  else tutorial.style.display="none";
+};
+
+skip.onclick=()=>{
+  tutorial.style.display="none";
+};
+
+render();
+</script>
+
+</body>
+</html>

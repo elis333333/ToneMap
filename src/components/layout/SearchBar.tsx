@@ -1,3 +1,5 @@
+import { useTutorialStore } from "@/features/tutorial/tutorialStore";
+
 type SearchBarProps = {
   placeholder?: string;
   value?: string;
@@ -17,6 +19,7 @@ export default function SearchBar({
   className = "",
   accentColor = "#FFFFFF",
 }: SearchBarProps) {
+  const { isActive, step, canType } = useTutorialStore();
   return (
     <div
       className={[
@@ -32,18 +35,20 @@ export default function SearchBar({
       }}
     >
       <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") onSubmit?.();
-        }}
-        placeholder={placeholder}
-        className={[
-          "w-full bg-transparent text-white outline-none placeholder:text-white/48",
-          compact ? "text-[0.98rem]" : "text-[1.2rem]",
-        ].join(" ")}
-      />
+  type="text"
+  value={value}
+  disabled={isActive && !canType}
+  onChange={(e) => onChange?.(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter") onSubmit?.();
+  }}
+  placeholder={placeholder}
+  className={[
+    "w-full bg-transparent text-white outline-none placeholder:text-white/48",
+    compact ? "text-[0.98rem]" : "text-[1.2rem]",
+    isActive && !canType ? "opacity-40 cursor-not-allowed" : "",
+  ].join(" ")}
+/>
 
       <button
         type="button"

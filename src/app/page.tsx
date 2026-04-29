@@ -1,7 +1,9 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import { useRef, useState } from "react";
+import TutorialController from "@/components/tutorial/TutorialController";
+import { useTutorialStore } from "@/features/tutorial/tutorialStore";
+import { useRef, useState, useEffect } from "react";
 import Hero from "@/components/layout/Hero";
 import InteractiveSection from "@/components/layout/InteractiveSection";
 import AboutSection from "@/components/layout/AboutSection";
@@ -31,6 +33,7 @@ export default function HomePage() {
   const [instrument, setInstrument] = useState<"keyboard" | "guitar" | "bass">(
     "guitar"
   );
+  const { step, setCanContinue } = useTutorialStore();
   
   const setSelectedKeysForInstrument = useExplorerStore(
     (state) => state.setSelectedKeysForInstrument
@@ -49,6 +52,27 @@ export default function HomePage() {
 
   const accentColor = getSearchEmotionColor(detection);
 
+  useEffect(() => {
+    if (step !== 2) return;
+
+    if (detection && detection.type !== "none") {
+      setCanContinue(true);
+    } else {
+      setCanContinue(false);
+    }
+  }, [detection, step, setCanContinue]);
+useEffect(() => {
+  if (step !== 2) return;
+
+  const timer = setTimeout(() => {
+    if (!query) {
+      setQuery("Cm");
+      handleSubmit();
+    }
+  }, 2500);
+
+  return () => clearTimeout(timer);
+}, [step]);
   const handleSubmit = async () => {
     const parsed = parseMusicQuery(query);
     let selectedKeys: SelectedKey[] = [];
@@ -253,6 +277,7 @@ await playChord(
 
   return (
     <main className="bg-black text-white">
+      <TutorialController />
       <Hero
         query={query}
         onQueryChange={setQuery}

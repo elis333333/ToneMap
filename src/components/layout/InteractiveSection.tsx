@@ -20,6 +20,7 @@ import { resolveChordForInstruments } from "@/core/engine/resolve";
 import type { NoteName } from "@/core/types";
 import type { PreviousGuitarVoicingReference } from "@/core/voicings/guitar";
 import type { GuitarRenderVoicing } from "@/core/adaptors/guitar";
+import { useTutorialStore } from "@/features/tutorial/tutorialStore";
 
 type InteractiveSectionProps = {
   sectionRef: React.RefObject<HTMLElement | null>;
@@ -161,6 +162,7 @@ export default function InteractiveSection({
   onInstrumentChange,
   accentColor,
 }: InteractiveSectionProps) {
+  const { isActive, step } = useTutorialStore();
   const clearNotes = useExplorerStore((state) => state.clearNotes);
   const setActiveInstrument = useExplorerStore((state) => state.setActiveInstrument);
   const toggleKey = useExplorerStore((state) => state.toggleKey);
@@ -507,11 +509,13 @@ export default function InteractiveSection({
   ]);
 
   return (
+  <div className={isActive && step !== 2 ? "pointer-events-none opacity-40" : ""}>
     <section
       id="interactive-section"
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden bg-black px-6 pb-20 pt-8 text-white md:px-8"
     >
+      
       <ExplorerSettingsModal
         open={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
@@ -796,5 +800,6 @@ export default function InteractiveSection({
         <TheoryAdvancedCard />
       </div>
     </section>
+    </div>
   );
 }

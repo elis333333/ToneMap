@@ -1,6 +1,6 @@
 import Logo from "@/components/common/Logo";
 import SearchBar from "@/components/layout/SearchBar";
-
+import { useTutorialStore } from "@/features/tutorial/tutorialStore";
 type HeroProps = {
   query: string;
   onQueryChange: (value: string) => void;
@@ -19,6 +19,7 @@ export default function Hero({
   onSubmit,
   accentColor,
 }: HeroProps) {
+  const { isActive, step } = useTutorialStore();
   return (
     <section
       id="home"
@@ -55,7 +56,7 @@ export default function Hero({
         </header>
 
         <div className="flex flex-1 items-center justify-center px-6 pt-14 md:pt-10">
-          <div className="w-full max-w-[720px]">
+          <div className={isActive && step !== 2 ? "pointer-events-none opacity-40" : ""}>
             <SearchBar
               value={query}
               onChange={onQueryChange}
