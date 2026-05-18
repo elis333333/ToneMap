@@ -23,6 +23,7 @@ import {
 } from "@/core/theory/progression";
 import { resolveRomanProgression } from "@/core/theory/romanNumerals";
 import type { ChordQuality, NoteName } from "@/core/types";
+import { TutorialProvider } from "@/features/tutorial/providers/TutorialProvider";
 
 export default function HomePage() {
   const interactiveSectionRef = useRef<HTMLElement | null>(null);
@@ -252,6 +253,7 @@ await playChord(
   };
 
   return (
+    <TutorialProvider>
     <main className="bg-black text-white">
       <Hero
         query={query}
@@ -274,5 +276,6 @@ await playChord(
 
       <section id="course" className="h-1 w-full" />
     </main>
+    </TutorialProvider>
   );
 }

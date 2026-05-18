@@ -1,0 +1,19 @@
+.progress {
+  display: flex;
+
+  gap: 1rem;
+}
+
+.dot {
+  width: 12px;
+
+  height: 12px;
+
+  border-radius: 999px;
+
+  background: gray;
+}
+
+.active {
+  background: white;
+}
