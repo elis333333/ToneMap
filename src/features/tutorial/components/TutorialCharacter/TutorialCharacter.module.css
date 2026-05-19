@@ -1,5 +1,14 @@
-.character {
-  color: white;
+.container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
 
-  font-size: 2rem;
+.image {
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+
+  user-select: none;
+  pointer-events: none;
 }

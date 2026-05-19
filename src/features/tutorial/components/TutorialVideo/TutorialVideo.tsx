@@ -1,20 +1,22 @@
+"use client";
+
 import styles from "./TutorialVideo.module.css";
 
-type TutorialVideoProps = {
+type Props = {
   src: string;
 };
 
-export const TutorialVideo = ({
-  src,
-}: TutorialVideoProps) => {
+export default function TutorialVideo({ src }: Props) {
   return (
     <video
+      key={src}
       className={styles.video}
-      src={src}
       autoPlay
       muted
       loop
       playsInline
-    />
+    >
+      <source src={src} type="video/mp4" />
+    </video>
   );
-};
+}

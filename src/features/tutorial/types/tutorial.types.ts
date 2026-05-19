@@ -3,6 +3,8 @@ export type TutorialStep = {
 
   title: string;
 
+  description: string;
+
   video: string;
 };
 
@@ -11,13 +13,17 @@ export type TutorialStore = {
 
   currentStep: number;
 
+  hasCompleted: boolean;
+
   openTutorial: () => void;
 
   closeTutorial: () => void;
 
   nextStep: () => void;
 
-  prevStep: () => void;
+  previousStep: () => void;
 
   completeTutorial: () => void;
+
+  resetTutorial: () => void;
 };

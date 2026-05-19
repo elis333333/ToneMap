@@ -1,23 +1,212 @@
-.slide {
+.wrapper {
   width: 100%;
-
-  max-width: 1200px;
+  height: 100%;
 
   display: flex;
-
   flex-direction: column;
 
-  align-items: center;
+  transform: scale(0.92);
+  transform-origin: center center;
+}
 
-  gap: 2rem;
+/* HERO */
+
+.hero {
+  margin-top: 5rem;
+
+  text-align: center;
 }
 
 .title {
+  font-size: clamp(4.5rem, 7vw, 8rem);
+
+  line-height: 0.95;
+
+  font-weight: 800;
+  margin-top: 5rem;
   color: white;
 
-  font-size: 3rem;
+  letter-spacing: -0.06em;
+}
+
+.subtitle {
+  
+  margin-top: 1.5rem;
+
+  font-size: clamp(1.2rem, 2vw, 2.2rem);
+
+  opacity: 0.8;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-family: monospace;
+}
+
+/* LAYOUT */
+
+.firstLayout {
+  width: 100%;
+
+  flex: 1;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0rem;
+
+  margin-top: 0rem;
+}
+
+.stepLayout {
+  width: 100%;
+
+  flex: 1;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0rem;
+
+  margin-top: 0rem;
+}
+
+/* CONTENT */
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+/* BUBBLE */
+
+.bubble {
+  position: relative;
+
+  margin-bottom: 3rem;
+
+  max-width: 980px;
+
+  padding: 2.5rem 3rem;
+
+  border-radius: 2.5rem;
+
+  background: rgba(15, 15, 20, 0.95);
+
+  backdrop-filter: blur(10px);
+}
+
+.description {
+  font-size: clamp(1.8rem, 2vw, 3rem);
 
   font-weight: 700;
 
-  text-align: center;
+  line-height: 1.15;
+
+  color: white;
+}
+
+.tail {
+  position: absolute;
+
+  right: 82px;
+  bottom: -24px;
+
+  width: 0;
+  height: 0;
+
+  border-left: 24px solid transparent;
+  border-right: 24px solid transparent;
+  border-top: 28px solid rgba(18, 18, 22, 0.96);
+}
+
+/* VIDEO */
+
+.videoWrapper {
+  width: min(980px, 58vw);
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  background: black;
+
+  margin-top: -0.5rem;
+}
+
+.video {
+  width: 100%;
+
+  height: auto;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+}
+
+/* TONI */
+
+.toniWrapper {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.toni {
+  width: 260px;
+
+  height: auto;
+
+  object-fit: contain;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1200px) {
+  .stepLayout,
+  .firstLayout {
+    flex-direction: column;
+
+    gap: 1.5rem;
+  }
+
+  .bubble {
+    width: 90vw;
+  }
+
+  .videoWrapper {
+    width: 90vw;
+  }
+
+  .toni {
+    width: 180px;
+  }
+
+  .wrapper {
+    transform: scale(1);
+  }
+}
+
+.pink {
+  color: #ff006e;
+}
+
+.green {
+  color: #06d6a0;
+}
+
+.yellow {
+  color: #ffbe0b;
+}
+
+.purple {
+  color: #8338ec;
 }

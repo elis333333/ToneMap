@@ -1,54 +1,44 @@
-"use client";
-
 import { create } from "zustand";
-
-import { TOTAL_TUTORIAL_STEPS } from "../constants/tutorial.constants";
-import { saveTutorialCompletion } from "../utils/tutorialStorage";
 
 import type { TutorialStore } from "../types/tutorial.types";
 
-export const useTutorialStore = create<TutorialStore>((set, get) => ({
-  isOpen: false,
+export const useTutorialStore = create<TutorialStore>((set) => ({
+  isOpen: true,
 
   currentStep: 0,
 
-  openTutorial: () => {
+  hasCompleted: false,
+
+  openTutorial: () =>
     set({
       isOpen: true,
-    });
-  },
+    }),
 
-  closeTutorial: () => {
+  closeTutorial: () =>
     set({
       isOpen: false,
-    });
-  },
+    }),
 
-  nextStep: () => {
-    const currentStep = get().currentStep;
+  nextStep: () =>
+    set((state) => ({
+      currentStep: state.currentStep + 1,
+    })),
 
-    if (currentStep < TOTAL_TUTORIAL_STEPS - 1) {
-      set({
-        currentStep: currentStep + 1,
-      });
-    }
-  },
+  previousStep: () =>
+    set((state) => ({
+      currentStep: Math.max(state.currentStep - 1, 0),
+    })),
 
-  prevStep: () => {
-    const currentStep = get().currentStep;
-
-    if (currentStep > 0) {
-      set({
-        currentStep: currentStep - 1,
-      });
-    }
-  },
-
-  completeTutorial: () => {
-    saveTutorialCompletion();
-
+  completeTutorial: () =>
     set({
       isOpen: false,
-    });
-  },
+      hasCompleted: true,
+    }),
+
+  resetTutorial: () =>
+    set({
+      currentStep: 0,
+      isOpen: true,
+      hasCompleted: false,
+    }),
 }));

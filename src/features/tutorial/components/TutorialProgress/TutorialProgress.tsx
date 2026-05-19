@@ -1,27 +1,38 @@
 import styles from "./TutorialProgress.module.css";
 
-type TutorialProgressProps = {
+type Props = {
   total: number;
-
   current: number;
 };
 
-export const TutorialProgress = ({
+const colors = [
+  "#3A86FF",
+  "#FF006E",
+  "#06D6A0",
+  "#8338EC",
+  "#FFBE0B",
+];
+
+export function TutorialProgress({
   total,
   current,
-}: TutorialProgressProps) => {
+}: Props) {
   return (
-    <div className={styles.progress}>
+    <div className={styles.dots}>
       {Array.from({ length: total }).map((_, index) => (
         <div
           key={index}
           className={`${styles.dot} ${
-            current === index
-              ? styles.active
-              : ""
+            current === index ? styles.active : ""
           }`}
+          style={{
+            background:
+              current === index
+                ? "#FFFFFF"
+                : colors[index],
+          }}
         />
       ))}
     </div>
   );
-};
+}

@@ -1,45 +1,50 @@
+"use client";
+
+import { useTutorialStore } from "../../store/tutorialStore";
+
 import styles from "./TutorialControls.module.css";
 
-type TutorialControlsProps = {
-  isFirstStep: boolean;
+export default function TutorialControls() {
+  const {
+    currentStep,
+    previousStep,
+    nextStep,
+    completeTutorial,
+  } = useTutorialStore();
 
-  isLastStep: boolean;
+  const isFirstStep = currentStep === 0;
+  const isLastStep = currentStep === 4;
 
-  onNext: () => void;
-
-  onPrev: () => void;
-
-  onComplete: () => void;
-};
-
-export const TutorialControls = ({
-  isFirstStep,
-  isLastStep,
-  onNext,
-  onPrev,
-  onComplete,
-}: TutorialControlsProps) => {
   return (
     <div className={styles.controls}>
-      {isFirstStep ? (
-        <button onClick={onComplete}>
-          Saltar
-        </button>
-      ) : (
-        <button onClick={onPrev}>
+      {!isFirstStep && (
+        <button
+          onClick={previousStep}
+          className={styles.secondaryButton}
+        >
           Atrás
         </button>
       )}
 
-      {isLastStep ? (
-        <button onClick={onComplete}>
-          ¡Listo!
-        </button>
-      ) : (
-        <button onClick={onNext}>
-          Siguiente
+      {isFirstStep && (
+        <button
+          onClick={completeTutorial}
+          className={styles.secondaryButton}
+        >
+          Saltar
         </button>
       )}
+
+      <button
+        onClick={
+          isLastStep
+            ? completeTutorial
+            : nextStep
+        }
+        className={styles.primaryButton}
+      >
+        {isLastStep ? "¡Listo!" : "Siguiente"}
+      </button>
     </div>
   );
-};
+}

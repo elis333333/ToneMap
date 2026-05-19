@@ -2,66 +2,45 @@
 
 import { tutorialSteps } from "../../data/tutorialSteps";
 
-import { useTutorial } from "../../hooks/useTutorial";
+import { useTutorialStore } from "../../store/tutorialStore";
 
 import { TutorialPortal } from "../TutorialPortal";
 import { TutorialOverlay } from "../TutorialOverlay";
-import { TutorialModal } from "../TutorialModal";
-import { TutorialSlide } from "../TutorialSlide";
-import { TutorialVideo } from "../TutorialVideo";
+import TutorialSlide from "../TutorialSlide/TutorialSlide";
+import TutorialControls from "../TutorialControls/TutorialControls";
 import { TutorialProgress } from "../TutorialProgress";
-import { TutorialControls } from "../TutorialControls";
-import { TutorialCharacter } from "../TutorialCharacter";
 
-export const TutorialRoot = () => {
+import styles from "./TutorialRoot.module.css";
+
+export function TutorialRoot() {
   const {
-    isOpen,
-    currentStep,
-    nextStep,
-    prevStep,
-    completeTutorial,
-  } = useTutorial();
+  isOpen,
+  currentStep,
+} = useTutorialStore();
 
-  if (!isOpen) {
-    return null;
-  }
+  if (!isOpen) return null;
 
-  const currentTutorialStep =
-    tutorialSteps[currentStep];
+  const step = tutorialSteps[currentStep];
 
-  const isFirstStep = currentStep === 0;
-
-  const isLastStep =
-    currentStep === tutorialSteps.length - 1;
-
+  
   return (
     <TutorialPortal>
       <TutorialOverlay>
-        <TutorialModal>
-          <TutorialSlide
-            title={currentTutorialStep.title}
-          >
-            <TutorialCharacter />
+        <div className={styles.container}>
+  <TutorialSlide step={step} />
 
-            <TutorialVideo
-              src={currentTutorialStep.video}
-            />
+  <div className={styles.navigation}>
+    <TutorialProgress
+      total={tutorialSteps.length}
+      current={currentStep}
+    />
+  </div>
 
-            <TutorialProgress
-              total={tutorialSteps.length}
-              current={currentStep}
-            />
-
-            <TutorialControls
-              isFirstStep={isFirstStep}
-              isLastStep={isLastStep}
-              onNext={nextStep}
-              onPrev={prevStep}
-              onComplete={completeTutorial}
-            />
-          </TutorialSlide>
-        </TutorialModal>
+  <div className={styles.controls}>
+  <TutorialControls />
+</div>
+</div>
       </TutorialOverlay>
     </TutorialPortal>
   );
-};
+}

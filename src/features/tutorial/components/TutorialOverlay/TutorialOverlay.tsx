@@ -1,15 +1,11 @@
+import type { ReactNode } from "react";
+
 import styles from "./TutorialOverlay.module.css";
 
-type TutorialOverlayProps = {
-  children: React.ReactNode;
+type Props = {
+  children: ReactNode;
 };
 
-export const TutorialOverlay = ({
-  children,
-}: TutorialOverlayProps) => {
-  return (
-    <div className={styles.overlay}>
-      {children}
-    </div>
-  );
-};
+export function TutorialOverlay({ children }: Props) {
+  return <div className={styles.overlay}>{children}</div>;
+}
